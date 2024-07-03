@@ -6,64 +6,58 @@ import pizza from '../../assets/images/piz.png'
 
 const pizzaria: Food[] = [
   {
+    image: pizza,
+    price: 1.99,
     id: 1,
-    image: pizza,
-    infos: [],
-    title: 'Pizza Marguerita',
-    note: 0,
+    name: 'pizza',
     description:
       'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!',
-    link: 'Adicionar ao carrinho'
+    portion: '1 a 2 pessoas'
   },
   {
+    image: pizza,
+    price: 1.99,
     id: 2,
-    image: pizza,
-    infos: [],
-    title: 'Pizza Marguerita',
-    note: 0,
+    name: 'pizza',
     description:
       'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!',
-    link: 'Adicionar ao carrinho'
+    portion: '1 a 2 pessoas'
   },
   {
+    image: pizza,
+    price: 1.99,
     id: 3,
-    image: pizza,
-    infos: [],
-    title: 'Pizza Marguerita',
-    note: 0,
+    name: 'pizza',
     description:
       'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!',
-    link: 'Adicionar ao carrinho'
+    portion: '1 a 2 pessoas'
   },
   {
+    image: pizza,
+    price: 1.99,
     id: 4,
-    image: pizza,
-    infos: [],
-    title: 'Pizza Marguerita',
-    note: 0,
+    name: 'pizza',
     description:
       'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!',
-    link: 'Adicionar ao carrinho'
+    portion: '1 a 2 pessoas'
   },
   {
+    image: pizza,
     id: 5,
-    image: pizza,
-    infos: [],
-    title: 'Pizza Marguerita',
-    note: 0,
+    price: 1.99,
+    name: 'pizza',
     description:
       'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!',
-    link: 'Adicionar ao carrinho'
+    portion: '1 a 2 pessoas'
   },
   {
-    id: 6,
     image: pizza,
-    infos: [],
-    title: 'Pizza Marguerita',
-    note: 0,
+    price: 1.99,
+    id: 6,
+    name: 'pizza',
     description:
       'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!',
-    link: 'Adicionar ao carrinho'
+    portion: '1 a 2 pessoas'
   }
 ]
 

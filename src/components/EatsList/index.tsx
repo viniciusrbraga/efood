@@ -16,9 +16,11 @@ const EatsList = ({ meals }: Props) => (
             <Eat
               key={meal.id}
               image={meal.image}
-              title={meal.title}
+              price={meal.price}
+              id={meal.id}
+              name={meal.name}
               description={meal.description}
-              link={meal.link}
+              portion={meal.portion}
             />
           ))}
         </List>
