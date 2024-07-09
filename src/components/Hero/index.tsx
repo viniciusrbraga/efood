@@ -9,19 +9,26 @@ import {
 } from './styles'
 import logo from '../../assets/images/logo.png'
 
-export const Hero = () => (
+type Props = {
+  titulo: string
+  tipo: string
+  capa: string
+}
+
+export const Hero = ({ titulo, tipo, capa }: Props) => (
   <>
-    <HeroContainer>
+    <h3>{titulo}</h3>
+    <HeroContainer style={{ backgroundImage: `url(${capa})` }}>
       <Cabecalho>
         <SubTitulo>Restaurantes</SubTitulo>
         <img src={logo} alt="eFood" />
         <SubTitulo>0 produto(s) no carrinho</SubTitulo>
       </Cabecalho>
     </HeroContainer>
-    <Banner>
+    <Banner style={{ backgroundImage: `url(${capa})` }}>
       <CabecalhoBanner>
-        <Tipo>Italiana</Tipo>
-        <Nome>La Dolce Vita Trattoria</Nome>
+        <Tipo>{tipo}</Tipo>
+        <Nome>{titulo}</Nome>
       </CabecalhoBanner>
     </Banner>
   </>

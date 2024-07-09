@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 import { cores } from '../../styles'
-import fundo from '../../assets/images/fundo.png'
-import pasta from '../../assets/images/pas.png'
 
 export const SubTitulo = styled.h3`
   color: ${cores.coral};
@@ -25,7 +23,6 @@ export const Nome = styled.h3`
 
 export const HeroContainer = styled.header`
   background-color: ${cores.creme};
-  background-image: url(${fundo});
   height: 186px;
   width: 1366px;
   margin: 0 auto;
@@ -58,8 +55,7 @@ export const CabecalhoBanner = styled.div`
 export const Banner = styled.div`
   width: 1366px;
   height: 280px;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url(${pasta});
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)):
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

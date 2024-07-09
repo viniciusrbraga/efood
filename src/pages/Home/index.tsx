@@ -2,24 +2,24 @@ import { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import DinnersList from '../../components/DinnersList'
 
-export type Restaurant = {
+export interface Cardapio {
+  foto: string
+  preco: number
   id: number
-  title: string
-  highlighted: boolean
-  type: string
-  evaluation: number
-  description: string
-  cover: string
-  menu: bill_of_fare[]
+  nome: string
+  descricao: string
+  porcao: string
 }
 
-export type bill_of_fare = {
-  picture: string
-  price: number
+export type Restaurant = {
   id: number
-  name: string
-  description: string
-  portion: string
+  titulo: string
+  destacado: boolean
+  tipo: string
+  avaliacao: number
+  descricao: string
+  capa: string
+  cardapio: Cardapio[]
 }
 
 const Home = () => {

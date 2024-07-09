@@ -15,40 +15,38 @@ import { Link } from 'react-router-dom'
 
 type Props = {
   id: number
-  title: string
-  highlighted: boolean
-  type: string[]
-  note: number
-  description: string
-  image: string
+  titulo: string
+  destacado: boolean
+  tipo: string[]
+  nota: number
+  descricao: string
+  capa: string
 }
 
 const Dinner = ({
-  title,
-  type,
-  note,
-  description,
-  image
-}: // highlighted
+  titulo,
+  tipo,
+  nota,
+  descricao,
+  capa
+}: // destacado
 Props) => {
   return (
     <Card>
-      <img src={image} alt={title} />
+      <img src={capa} alt={titulo} />
       <Infos>
-        {/* {highlighted && <Tag>Destaque da semana</Tag>}
-        <Tag>{type}</Tag> */}
-        {type.map((info) => (
+        {tipo.map((info) => (
           <Tag key={info}>{info}</Tag>
         ))}
       </Infos>
       <Titulo>
-        <Nome>{title}</Nome>
+        <Nome>{titulo}</Nome>
         <Score>
-          <Nota>{note}</Nota>
-          <img src={star} alt={title} />
+          <Nota>{nota}</Nota>
+          <img src={star} alt={titulo} />
         </Score>
       </Titulo>
-      <Descricao>{description}</Descricao>
+      <Descricao>{descricao}</Descricao>
       <Link to="/Perfil">
         <Botao>Saiba mais</Botao>
       </Link>

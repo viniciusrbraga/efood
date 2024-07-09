@@ -15,12 +15,12 @@ import fechar from '../../assets/images/fechar.png'
 // import { Link } from 'react-router-dom'
 
 type Props = {
+  foto: string
+  preco: number
   id: number
-  image: string
-  name: string
-  description: string
-  portion: string
-  price: number
+  nome: string
+  descricao: string
+  porcao: string
 }
 
 interface ModalState {
@@ -28,7 +28,7 @@ interface ModalState {
   // url: string
 }
 
-const Eat = ({ image, name, description, portion, price }: Props) => {
+const Eat = ({ foto, nome, descricao, porcao, preco }: Props) => {
   const [modal, setModal] = useState<ModalState>({
     estaVisivel: false
     // url: ''
@@ -44,9 +44,9 @@ const Eat = ({ image, name, description, portion, price }: Props) => {
   return (
     <>
       <Card>
-        <img src={image} alt={name} />
-        <Nome>{name}</Nome>
-        <Descricao>{description}</Descricao>
+        <img src={foto} alt={nome} />
+        <Nome>{nome}</Nome>
+        <Descricao>{descricao}</Descricao>
         {/* <Botao>Mais detalhes</Botao> */}
         <Botao
           onClick={() => {
@@ -61,14 +61,14 @@ const Eat = ({ image, name, description, portion, price }: Props) => {
       </Card>
       <Modal className={modal.estaVisivel ? 'visivel' : ''}>
         <ModalContent className="container">
-          <img src={image} alt="Pizza" />
+          <img src={foto} alt="Pizza" />
           <DadosContainer>
             <DescricaoContainer>
-              <h4>{name}</h4>
-              <p>{description}</p>
-              <p>{portion}</p>
+              <h4>{nome}</h4>
+              <p>{descricao}</p>
+              <p>{porcao}</p>
             </DescricaoContainer>
-            <Botao>Adicionar ao carrinho - R$ {price}</Botao>
+            <Botao>Adicionar ao carrinho - R$ {preco}</Botao>
           </DadosContainer>
           <img
             className="CloseModal"

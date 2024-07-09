@@ -11,11 +11,11 @@ const DinnersList = ({ restaurants }: Props) => {
   const getRestaurantTags = (restaurant: Restaurant) => {
     const tags = []
 
-    if (restaurant.highlighted) {
+    if (restaurant.destacado) {
       tags.push('Destaque da semana')
     }
 
-    tags.push(restaurant.type)
+    tags.push(restaurant.tipo)
 
     return tags
   }
@@ -29,12 +29,12 @@ const DinnersList = ({ restaurants }: Props) => {
               <li key={restaurant.id}>
                 <Dinner
                   id={restaurant.id}
-                  title={restaurant.title}
-                  highlighted={restaurant.highlighted}
-                  type={getRestaurantTags(restaurant)}
-                  note={restaurant.evaluation}
-                  description={restaurant.description}
-                  image={restaurant.cover}
+                  titulo={restaurant.titulo}
+                  destacado={restaurant.destacado}
+                  tipo={getRestaurantTags(restaurant)}
+                  nota={restaurant.avaliacao}
+                  descricao={restaurant.descricao}
+                  capa={restaurant.capa}
                 />
               </li>
             ))}
