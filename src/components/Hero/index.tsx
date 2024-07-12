@@ -8,6 +8,7 @@ import {
   CabecalhoBanner
 } from './styles'
 import logo from '../../assets/images/logo.png'
+import fundo from '../../assets/images/fundo.png'
 
 type Props = {
   titulo: string
@@ -17,8 +18,7 @@ type Props = {
 
 export const Hero = ({ titulo, tipo, capa }: Props) => (
   <>
-    <h3>{titulo}</h3>
-    <HeroContainer style={{ backgroundImage: `url(${capa})` }}>
+    <HeroContainer style={{ backgroundImage: `url(${fundo})` }}>
       <Cabecalho>
         <SubTitulo>Restaurantes</SubTitulo>
         <img src={logo} alt="eFood" />

@@ -55,7 +55,7 @@ export const CabecalhoBanner = styled.div`
 export const Banner = styled.div`
   width: 1366px;
   height: 280px;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)):
+  // background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)):
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

@@ -61,7 +61,7 @@ const Eat = ({ foto, nome, descricao, porcao, preco }: Props) => {
       </Card>
       <Modal className={modal.estaVisivel ? 'visivel' : ''}>
         <ModalContent className="container">
-          <img src={foto} alt="Pizza" />
+          <img src={foto} alt={nome} />
           <DadosContainer>
             <DescricaoContainer>
               <h4>{nome}</h4>

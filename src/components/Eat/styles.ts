@@ -7,6 +7,9 @@ export const Card = styled.div`
   border: 8px solid ${cores.coral};
   position: relative;
   margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   ${TagContainer} {
     margin-right: 8px;
@@ -16,6 +19,10 @@ export const Card = styled.div`
     height: 167px;
     width: 100%;
     object-fit: cover;
+  }
+
+  button {
+    bottom: 0;
   }
 `
 
@@ -34,7 +41,6 @@ export const Descricao = styled.p`
   display: block;
   margin-top: 8px;
   margin-bottom: 8px;
-  // padding: 6px;
 `
 
 export const Botao = styled.button`
@@ -105,6 +111,7 @@ export const ModalContent = styled.div`
     margin-right: 24px;
     width: 280px;
     height: 280px;
+    object-fit: cover;
   }
 
   img,

@@ -28,7 +28,8 @@ const Dinner = ({
   tipo,
   nota,
   descricao,
-  capa
+  capa,
+  id
 }: // destacado
 Props) => {
   return (
@@ -47,7 +48,7 @@ Props) => {
         </Score>
       </Titulo>
       <Descricao>{descricao}</Descricao>
-      <Link to="/Perfil">
+      <Link to={`/rest/${id}`}>
         <Botao>Saiba mais</Botao>
       </Link>
     </Card>

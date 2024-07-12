@@ -6,7 +6,7 @@ import EatsList from '../../components/EatsList'
 
 import { Restaurant } from '../Home'
 
-const perfil = () => {
+const Rest = () => {
   const { id } = useParams()
 
   const [restaurante, setRestaurante] = useState<Restaurant>()
@@ -35,4 +35,4 @@ const perfil = () => {
   )
 }
 
-export default perfil
+export default Rest
