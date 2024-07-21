@@ -4,24 +4,23 @@ import { Restaurant } from '../../pages/Home'
 import Eat from '../Eat'
 
 export type Props = {
-  menu: Restaurant
+  rest: Restaurant
 }
 
-const EatsList = ({ menu }: Props) => (
+export const formataPreco = (preco = 0) => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(preco)
+}
+
+const EatsList = ({ rest }: Props) => (
   <Container>
     <div className="container">
       <Menu>
         <List>
-          {menu.cardapio.map((cart) => (
-            <Eat
-              key={cart.id}
-              foto={cart.foto}
-              preco={cart.preco}
-              id={cart.id}
-              nome={cart.nome}
-              descricao={cart.descricao}
-              porcao={cart.porcao}
-            />
+          {rest.cardapio.map((cart) => (
+            <Eat key={cart.id} prato={cart} />
           ))}
         </List>
       </Menu>

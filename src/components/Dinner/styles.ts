@@ -7,6 +7,7 @@ export const Card = styled.div`
   border: 1px solid ${cores.coral};
   position: relative;
   margin-bottom: 40px;
+  width: 472px;
 
   ${TagContainer} {
     margin-right: 8px;

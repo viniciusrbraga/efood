@@ -10,6 +10,7 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 320px;
 
   ${TagContainer} {
     margin-right: 8px;

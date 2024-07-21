@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { breakpoints, cores } from '../../styles'
 
 import fundo from '../../assets/images/fundo.png'
 
@@ -10,6 +10,14 @@ export const HeaderBar = styled.header`
   width: 1366px;
   height: 384px;
   text-align: center;
+
+  @media (max-width: ${breakpoints.desktop}) {
+    width: 1024px;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    width: 768px;
+  }
 `
 
 export const Titulo = styled.h1`
@@ -20,4 +28,12 @@ export const Titulo = styled.h1`
   margin-left: 414px;
   max-width: 580px;
   text-align: center;
+
+  @media (max-width: ${breakpoints.desktop}) {
+    margin-left: 240px;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    margin-left: 60px;
+  }
 `

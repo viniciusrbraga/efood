@@ -10,49 +10,50 @@ import {
   DadosContainer
 } from './styles'
 
-import fechar from '../../assets/images/fechar.png'
+import { useDispatch } from 'react-redux'
+import { add, open } from '../../store/reducers/cart'
 
-// import { Link } from 'react-router-dom'
+import fechar from '../../assets/images/fechar.png'
+import { Prato } from '../../pages/Home'
+import { formataPreco } from '../EatsList'
 
 type Props = {
-  foto: string
-  preco: number
-  id: number
-  nome: string
-  descricao: string
-  porcao: string
+  prato: Prato
 }
 
 interface ModalState {
   estaVisivel: boolean
-  // url: string
 }
 
-const Eat = ({ foto, nome, descricao, porcao, preco }: Props) => {
+const Eat = ({ prato }: Props) => {
   const [modal, setModal] = useState<ModalState>({
     estaVisivel: false
-    // url: ''
   })
 
   const closeModal = () => {
     setModal({
       estaVisivel: false
-      // url: ''
     })
+  }
+
+  const dispatch = useDispatch()
+
+  const addToCart = () => {
+    closeModal()
+    dispatch(add(prato))
+    dispatch(open())
   }
 
   return (
     <>
       <Card>
-        <img src={foto} alt={nome} />
-        <Nome>{nome}</Nome>
-        <Descricao>{descricao}</Descricao>
-        {/* <Botao>Mais detalhes</Botao> */}
+        <img src={prato.foto} alt={prato.nome} />
+        <Nome>{prato.nome}</Nome>
+        <Descricao>{prato.descricao}</Descricao>
         <Botao
           onClick={() => {
             setModal({
               estaVisivel: true
-              // url: media.url
             })
           }}
         >
@@ -61,14 +62,16 @@ const Eat = ({ foto, nome, descricao, porcao, preco }: Props) => {
       </Card>
       <Modal className={modal.estaVisivel ? 'visivel' : ''}>
         <ModalContent className="container">
-          <img src={foto} alt={nome} />
+          <img src={prato.foto} alt={prato.nome} />
           <DadosContainer>
             <DescricaoContainer>
-              <h4>{nome}</h4>
-              <p>{descricao}</p>
-              <p>{porcao}</p>
+              <h4>{prato.nome}</h4>
+              <p>{prato.descricao}</p>
+              <p>{prato.porcao}</p>
             </DescricaoContainer>
-            <Botao>Adicionar ao carrinho - R$ {preco}</Botao>
+            <Botao onClick={addToCart}>
+              Adicionar ao carrinho - {formataPreco(prato.preco)}
+            </Botao>
           </DadosContainer>
           <img
             className="CloseModal"

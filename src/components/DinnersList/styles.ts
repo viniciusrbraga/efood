@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { breakpoints, cores } from '../../styles'
 
 export const Container = styled.section`
   padding: 32px 0;
@@ -20,6 +20,11 @@ export const List = styled.ul`
   grid-template-columns: 1fr 1fr;
   column-gap: 80px;
   margin-top: 40px;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    display: block;
+    margin-left: 96px;
+  }
 `
 
 export const Title = styled.h2`

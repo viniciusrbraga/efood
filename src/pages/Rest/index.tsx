@@ -1,38 +1,24 @@
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-
 import Hero from '../../components/Hero'
 import EatsList from '../../components/EatsList'
-
-import { Restaurant } from '../Home'
+import { useGetRestQuery } from '../../services/api'
 
 const Rest = () => {
   const { id } = useParams()
 
-  const [restaurante, setRestaurante] = useState<Restaurant>()
+  const { data: Rest } = useGetRestQuery(id!)
 
-  useEffect(() => {
-    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-      .then((res) => res.json())
-      .then((res) => setRestaurante(res))
-  }, [id])
-
-  if (!restaurante) {
-    return <h3>Carregando...</h3>
+  if (Rest) {
+    return (
+      <>
+        <div className="container">
+          <Hero titulo={Rest.titulo} tipo={Rest.tipo} capa={Rest.capa} />
+        </div>
+        <EatsList rest={Rest} />
+      </>
+    )
   }
-
-  return (
-    <>
-      <div className="container">
-        <Hero
-          titulo={restaurante.titulo}
-          tipo={restaurante.tipo}
-          capa={restaurante.capa}
-        />
-      </div>
-      <EatsList menu={restaurante} />
-    </>
-  )
+  return <h4>Carregando...</h4>
 }
 
 export default Rest
