@@ -1,40 +1,27 @@
 import Header from '../../components/Header'
 import DinnersList from '../../components/DinnersList'
 import { useGetRestsQuery } from '../../services/api'
-
-export interface Prato {
-  foto: string
-  preco: number
-  id: number
-  nome: string
-  descricao: string
-  porcao: string
-}
-
-export type Restaurant = {
-  id: number
-  titulo: string
-  destacado: boolean
-  tipo: string
-  avaliacao: number
-  descricao: string
-  capa: string
-  cardapio: Prato[]
-}
+import { cores } from '../../styles'
+import { BarLoader } from 'react-spinners'
 
 const Home = () => {
-  const { data: Rests } = useGetRestsQuery()
+  const { data: Rests, isLoading: isLoadingRests } = useGetRestsQuery()
+
   if (Rests) {
     return (
       <>
         <div className="container">
           <Header />
         </div>
-        <DinnersList restaurants={Rests} />
+        <DinnersList restaurants={Rests} isLoading={isLoadingRests} />
       </>
     )
   }
-  return <h4>Carregando...</h4>
+  return (
+    <>
+      <BarLoader color={cores.coral} />
+    </>
+  )
 }
 
 export default Home

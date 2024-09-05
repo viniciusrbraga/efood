@@ -6,7 +6,8 @@ export const cores = {
   bege: '#FFEBD9',
   laranja: '#FFB930',
   coral: '#E66767',
-  preto: '#00000080'
+  preto: '#00000080',
+  vinho: '#6F1E51'
 }
 
 export const GlobalCss = createGlobalStyle`

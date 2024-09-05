@@ -35,6 +35,72 @@ export const Sidebar = styled.aside`
   padding: 32px 8px 0 8px;
   max-width: 360px;
   width: 100%;
+
+  h2 {
+    color: ${cores.bege};
+    font-size: 16px;
+    font-weight: 700;
+    margin-left: 4px;
+    margin-top: 32px;
+    margin-bottom: 16px;
+  }
+
+  label {
+    color: ${cores.bege};
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 4px;
+    margin-bottom: 8px;
+    display: block;
+
+    &.cvv {
+      width: 87px;
+      margin-left: 66px;
+    }
+  }
+
+  input {
+    margin-bottom: 8px;
+    background-color: ${cores.bege};
+    border: 1px solid ${cores.bege};
+    height: 32px;
+    padding: 0 8px;
+    width: 100%;
+
+    &.cartao {
+      width: 208px;
+    }
+
+    &.cvv {
+      width: 87px;
+      margin-left: 66px;
+    }
+
+    &.error {
+      border: 3px solid ${cores.vinho};
+    }
+  }
+
+  p {
+    color: ${cores.bege};
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 4px;
+    margin-top: 32px;
+    margin-bottom: 16px;
+  }
+
+  button {
+    background-color: ${cores.bege};
+    border: 1px solid ${cores.bege};
+    color: ${cores.coral};
+    width: 100%;
+    height: 24px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
 `
 
 export const Prices = styled.p`
@@ -106,4 +172,15 @@ export const Comprar = styled.button`
   cursor: pointer;
   font-weight: bold;
   font-size: 14px;
+`
+
+export const CEPnum = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+export const Cep = styled.div`
+  display: block;
+  margin-bottom: 8px;
+  width: 155px;
 `

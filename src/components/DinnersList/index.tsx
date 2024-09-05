@@ -1,13 +1,15 @@
 import { Container, List, Menu } from './styles'
 
 import Dinner from '../Dinner'
-import { Restaurant } from '../../pages/Home'
+import { Restaurant } from '../../types'
+import Loader from '../Loader'
 
 export type Props = {
-  restaurants: Restaurant[]
+  restaurants?: Restaurant[]
+  isLoading: boolean
 }
 
-const DinnersList = ({ restaurants }: Props) => {
+const DinnersList = ({ restaurants, isLoading }: Props) => {
   const getRestaurantTags = (restaurant: Restaurant) => {
     const tags = []
 
@@ -20,24 +22,29 @@ const DinnersList = ({ restaurants }: Props) => {
     return tags
   }
 
+  if (isLoading) {
+    return <Loader />
+  }
+
   return (
     <Container>
       <div className="container">
         <Menu>
           <List>
-            {restaurants.map((restaurant) => (
-              <li key={restaurant.id}>
-                <Dinner
-                  id={restaurant.id}
-                  titulo={restaurant.titulo}
-                  destacado={restaurant.destacado}
-                  tipo={getRestaurantTags(restaurant)}
-                  nota={restaurant.avaliacao}
-                  descricao={restaurant.descricao}
-                  capa={restaurant.capa}
-                />
-              </li>
-            ))}
+            {restaurants &&
+              restaurants.map((restaurant) => (
+                <li key={restaurant.id}>
+                  <Dinner
+                    id={restaurant.id}
+                    titulo={restaurant.titulo}
+                    destacado={restaurant.destacado}
+                    tipo={getRestaurantTags(restaurant)}
+                    nota={restaurant.avaliacao}
+                    descricao={restaurant.descricao}
+                    capa={restaurant.capa}
+                  />
+                </li>
+              ))}
           </List>
         </Menu>
       </div>

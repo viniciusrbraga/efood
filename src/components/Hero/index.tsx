@@ -1,18 +1,10 @@
-import {
-  HeroContainer,
-  Banner,
-  Tipo,
-  Nome,
-  SubTitulo,
-  Cabecalho,
-  CabecalhoBanner,
-  SubTit
-} from './styles'
+import * as S from './styles'
 import logo from '../../assets/images/logo.png'
 import fundo from '../../assets/images/fundo.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { open } from '../../store/reducers/cart'
 import { RootReducer } from '../../store'
+import { Link } from 'react-router-dom'
 
 type Props = {
   titulo: string
@@ -31,21 +23,23 @@ export const Hero = ({ titulo, tipo, capa }: Props) => {
 
   return (
     <>
-      <HeroContainer style={{ backgroundImage: `url(${fundo})` }}>
-        <Cabecalho>
-          <SubTit>Restaurantes</SubTit>
-          <img src={logo} alt="eFood" />
-          <SubTitulo onClick={openCart}>
+      <S.HeroContainer style={{ backgroundImage: `url(${fundo})` }}>
+        <S.Cabecalho>
+          <S.SubTit>Restaurantes</S.SubTit>
+          <Link to="/">
+            <img src={logo} alt="eFood" />
+          </Link>
+          <S.SubTitulo onClick={openCart}>
             {eats.length} produto(s) no carrinho
-          </SubTitulo>
-        </Cabecalho>
-      </HeroContainer>
-      <Banner style={{ backgroundImage: `url(${capa})` }}>
-        <CabecalhoBanner>
-          <Tipo>{tipo}</Tipo>
-          <Nome>{titulo}</Nome>
-        </CabecalhoBanner>
-      </Banner>
+          </S.SubTitulo>
+        </S.Cabecalho>
+      </S.HeroContainer>
+      <S.Banner style={{ backgroundImage: `url(${capa})` }}>
+        <S.CabecalhoBanner>
+          <S.Tipo>{tipo}</S.Tipo>
+          <S.Nome>{titulo}</S.Nome>
+        </S.CabecalhoBanner>
+      </S.Banner>
     </>
   )
 }

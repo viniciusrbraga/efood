@@ -14,8 +14,8 @@ import { useDispatch } from 'react-redux'
 import { add, open } from '../../store/reducers/cart'
 
 import fechar from '../../assets/images/fechar.png'
-import { Prato } from '../../pages/Home'
-import { formataPreco } from '../EatsList'
+import { formataPreco } from '../../utils'
+import { Prato } from '../../types'
 
 type Props = {
   prato: Prato

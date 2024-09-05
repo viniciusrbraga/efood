@@ -1,17 +1,10 @@
 import { Container, List, Menu } from './styles'
-import { Restaurant } from '../../pages/Home'
+import { Restaurant } from '../../types'
 
 import Eat from '../Eat'
 
 export type Props = {
   rest: Restaurant
-}
-
-export const formataPreco = (preco = 0) => {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL'
-  }).format(preco)
 }
 
 const EatsList = ({ rest }: Props) => (
