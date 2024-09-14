@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 
 import * as Yup from 'yup'
 import * as S from './styles'
 
 import { RootReducer } from '../../store'
-import { close, remove } from '../../store/reducers/cart'
+import { clear, close, remove } from '../../store/reducers/cart'
 import { formataPreco, getTotal } from '../../utils'
 import { useCompraMutation } from '../../services/api'
 
@@ -56,8 +56,7 @@ const Cart = () => {
         .min(5, 'Informe a cidade')
         .required('Informe a cidade'),
       CEP: Yup.string()
-        .min(9, 'Informe o CEP completo')
-        .max(9, 'Informe o CEP completo')
+        .matches(/^[0-9]{2}.[0-9]{3}-[0-9]{3}$/, 'CEP inválido')
         .required('Informe o CEP'),
       numero: Yup.number()
         .moreThan(0, 'Informe o número')
@@ -120,6 +119,12 @@ const Cart = () => {
     return hasError
   }
 
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(clear())
+    }
+  }, [isSuccess, dispatch])
+
   const carrinho = () => {
     setEntrega(true)
     setPagamento(false)
@@ -128,21 +133,70 @@ const Cart = () => {
 
   const delivery = () => {
     setEntrega(false)
-    setPagamento(false)
-    setRecibo(true)
-  }
-
-  const payment = () => {
-    setEntrega(false)
     setPagamento(true)
     setRecibo(false)
   }
 
-  // const order = () => {
-  //   setEntrega(false)
-  //   setPagamento(false)
-  //   setRecibo(false)
-  // }
+  const payment = () => {
+    const nomeRecebedorI = document.getElementById(
+      'nomeRecebedor'
+    ) as HTMLInputElement
+    const enderecoI = document.getElementById('endereco') as HTMLInputElement
+    const cidadeI = document.getElementById('cidade') as HTMLInputElement
+    const CEPI = document.getElementById('CEP') as HTMLInputElement
+    const numeroI = document.getElementById('numero') as HTMLInputElement
+
+    if (
+      checkInputHasError('nomeRecebedor') ||
+      nomeRecebedorI.value === '' ||
+      checkInputHasError('endereco') ||
+      enderecoI.value === '' ||
+      checkInputHasError('cidade') ||
+      cidadeI.value === '' ||
+      checkInputHasError('CEP') ||
+      CEPI.value === '' ||
+      checkInputHasError('numero') ||
+      numeroI.value === '' ||
+      numeroI.value === '0'
+    ) {
+      setEntrega(false), setPagamento(true), setRecibo(false)
+    } else {
+      setEntrega(false), setPagamento(false), setRecibo(true)
+    }
+  }
+
+  const order = () => {
+    const nomeCartaoI = document.getElementById(
+      'nomeCartao'
+    ) as HTMLInputElement
+    const numeroCartaoI = document.getElementById(
+      'numeroCartao'
+    ) as HTMLInputElement
+    const CVVI = document.getElementById('CVV') as HTMLInputElement
+    const mesVencimentoI = document.getElementById(
+      'mesVencimento'
+    ) as HTMLInputElement
+    const anoVencimentoI = document.getElementById(
+      'anoVencimento'
+    ) as HTMLInputElement
+
+    if (
+      checkInputHasError('nomeCartao') ||
+      nomeCartaoI.value === '' ||
+      checkInputHasError('numeroCartao') ||
+      numeroCartaoI.value === '' ||
+      checkInputHasError('CVV') ||
+      CVVI.value === '' ||
+      checkInputHasError('mesVencimento') ||
+      mesVencimentoI.value === '' ||
+      checkInputHasError('anoVencimento') ||
+      anoVencimentoI.value === ''
+    ) {
+      setEntrega(false), setPagamento(false), setRecibo(true)
+    } else {
+      setEntrega(false), setPagamento(false), setRecibo(false)
+    }
+  }
 
   const finish = () => {
     dispatch(close())
@@ -222,9 +276,9 @@ const Cart = () => {
                           <span>{formataPreco(getTotal(eats))}</span>
                         </S.Prices>
                         <S.Comprar
-                          onClick={payment}
+                          onClick={delivery}
                           title="Continuar com a entrega"
-                          type="submit"
+                          type="button"
                         >
                           Continuar com a entrega
                         </S.Comprar>
@@ -316,15 +370,15 @@ const Cart = () => {
                               </label>
                               <input id="compl" type="text" />
                               <Button
-                                onClick={delivery}
-                                type="submit"
+                                onClick={payment}
+                                type="button"
                                 title="Clique aqui para continuar com o pagamento."
                               >
                                 Continuar com o pagamento
                               </Button>
                               <Button
                                 onClick={carrinho}
-                                type="submit"
+                                type="button"
                                 title="Clique aqui para voltar para o carrinho."
                               >
                                 Voltar para o carrinho
@@ -334,128 +388,126 @@ const Cart = () => {
                         </Card>
                       ) : (
                         <>
-                          {recibo ? (
-                            <>
-                              <S.Overlay onClick={closeCart} />
-                              <S.Sidebar>
-                                <h2>Pagamento - Valor a pagar R$ 190,90</h2>
-                                <label htmlFor="nomeCartao">
-                                  Nome no cartão
-                                </label>
-                                <input
-                                  id="nomeCartao"
-                                  type="text"
-                                  name="nomeCartao"
-                                  value={form.values.nomeCartao}
-                                  onChange={form.handleChange}
-                                  onBlur={form.handleBlur}
-                                  className={
-                                    checkInputHasError('nomeCartao')
-                                      ? 'error'
-                                      : ''
-                                  }
-                                />
-                                <S.CEPnum>
-                                  <S.Cep>
-                                    <label htmlFor="numeroCartao">
-                                      Número do cartão
-                                    </label>
-                                    <InputMask
-                                      id="numeroCartao"
-                                      type="text"
-                                      name="numeroCartao"
-                                      value={form.values.numeroCartao}
-                                      onChange={form.handleChange}
-                                      onBlur={form.handleBlur}
-                                      className={
-                                        checkInputHasError('numeroCartao')
-                                          ? 'error'
-                                          : ''
-                                      }
-                                      mask="9999 9999 9999 9999"
-                                    />
-                                  </S.Cep>
-                                  <S.Cep>
-                                    <label htmlFor="CVV" className="cvv">
-                                      CVV
-                                    </label>
-                                    <InputMask
-                                      id="CVV"
-                                      type="text"
-                                      name="CVV"
-                                      value={form.values.CVV}
-                                      onChange={form.handleChange}
-                                      onBlur={form.handleBlur}
-                                      className={
-                                        checkInputHasError('CVV') ? 'error' : ''
-                                      }
-                                      mask="999"
-                                    />
-                                  </S.Cep>
-                                </S.CEPnum>
-                                <S.CEPnum>
-                                  <S.Cep>
-                                    <label htmlFor="mesVencimento">
-                                      Mês de vencimento
-                                    </label>
-                                    <InputMask
-                                      id="mesVencimento"
-                                      type="text"
-                                      name="mesVencimento"
-                                      value={form.values.mesVencimento}
-                                      onChange={form.handleChange}
-                                      onBlur={form.handleBlur}
-                                      className={
-                                        checkInputHasError('mesVencimento')
-                                          ? 'error'
-                                          : ''
-                                      }
-                                      mask="99"
-                                    />
-                                  </S.Cep>
-                                  <S.Cep>
-                                    <label htmlFor="anoVencimento">
-                                      Ano de vencimento
-                                    </label>
-                                    <InputMask
-                                      id="anoVencimento"
-                                      type="text"
-                                      name="anoVencimento"
-                                      value={form.values.anoVencimento}
-                                      onChange={form.handleChange}
-                                      onBlur={form.handleBlur}
-                                      className={
-                                        checkInputHasError('anoVencimento')
-                                          ? 'error'
-                                          : ''
-                                      }
-                                      mask="9999"
-                                    />
-                                  </S.Cep>
-                                </S.CEPnum>
-                                <Button
-                                  type="submit"
-                                  // onClick={order}
-                                  onClick={form.handleSubmit}
-                                  title="Clique aqui para finalizar o pagamento."
-                                  disabled={isLoading}
-                                >
-                                  {isLoading
-                                    ? 'Finalizando pagamento'
-                                    : 'Finalizar pagamento'}
-                                </Button>
-                                <Button
-                                  onClick={payment}
-                                  type="submit"
-                                  title="Clique aqui para voltar para o endereço."
-                                >
-                                  Voltar para a edição de endereço
-                                </Button>
-                              </S.Sidebar>
-                            </>
-                          ) : (
-                            <>
-                              <S.Overlay onClick={closeCart} />
+                          {/* {recibo ? ( */}
+                          <>
+                            <S.Overlay onClick={closeCart} />
+                            <S.Sidebar>
+                              <h2>Pagamento - Valor a pagar R$ 190,90</h2>
+                              <label htmlFor="nomeCartao">Nome no cartão</label>
+                              <input
+                                id="nomeCartao"
+                                type="text"
+                                name="nomeCartao"
+                                value={form.values.nomeCartao}
+                                onChange={form.handleChange}
+                                onBlur={form.handleBlur}
+                                className={
+                                  checkInputHasError('nomeCartao')
+                                    ? 'error'
+                                    : ''
+                                }
+                              />
+                              <S.CEPnum>
+                                <S.Cep>
+                                  <label htmlFor="numeroCartao">
+                                    Número do cartão
+                                  </label>
+                                  <InputMask
+                                    id="numeroCartao"
+                                    type="text"
+                                    name="numeroCartao"
+                                    value={form.values.numeroCartao}
+                                    onChange={form.handleChange}
+                                    onBlur={form.handleBlur}
+                                    className={
+                                      checkInputHasError('numeroCartao')
+                                        ? 'error'
+                                        : ''
+                                    }
+                                    mask="9999 9999 9999 9999"
+                                  />
+                                </S.Cep>
+                                <S.Cep>
+                                  <label htmlFor="CVV" className="cvv">
+                                    CVV
+                                  </label>
+                                  <InputMask
+                                    id="CVV"
+                                    type="text"
+                                    name="CVV"
+                                    value={form.values.CVV}
+                                    onChange={form.handleChange}
+                                    onBlur={form.handleBlur}
+                                    className={
+                                      checkInputHasError('CVV') ? 'error' : ''
+                                    }
+                                    mask="999"
+                                  />
+                                </S.Cep>
+                              </S.CEPnum>
+                              <S.CEPnum>
+                                <S.Cep>
+                                  <label htmlFor="mesVencimento">
+                                    Mês de vencimento
+                                  </label>
+                                  <InputMask
+                                    id="mesVencimento"
+                                    type="text"
+                                    name="mesVencimento"
+                                    value={form.values.mesVencimento}
+                                    onChange={form.handleChange}
+                                    onBlur={form.handleBlur}
+                                    className={
+                                      checkInputHasError('mesVencimento')
+                                        ? 'error'
+                                        : ''
+                                    }
+                                    mask="99"
+                                  />
+                                </S.Cep>
+                                <S.Cep>
+                                  <label htmlFor="anoVencimento">
+                                    Ano de vencimento
+                                  </label>
+                                  <InputMask
+                                    id="anoVencimento"
+                                    type="text"
+                                    name="anoVencimento"
+                                    value={form.values.anoVencimento}
+                                    onChange={form.handleChange}
+                                    onBlur={form.handleBlur}
+                                    className={
+                                      checkInputHasError('anoVencimento')
+                                        ? 'error'
+                                        : ''
+                                    }
+                                    mask="9999"
+                                  />
+                                </S.Cep>
+                              </S.CEPnum>
+                              <Button
+                                type="submit"
+                                // onClick={order}
+                                onClick={form.handleSubmit}
+                                title="Clique aqui para finalizar o pagamento."
+                                disabled={isLoading}
+                              >
+                                {isLoading
+                                  ? 'Finalizando pagamento'
+                                  : 'Finalizar pagamento'}
+                              </Button>
+                              <Button
+                                onClick={delivery}
+                                type="button"
+                                title="Clique aqui para voltar para o endereço."
+                              >
+                                Voltar para a edição de endereço
+                              </Button>
+                            </S.Sidebar>
+                          </>
+                          {/*  ) : ( */}
+                          <>
+                            {/* <S.Overlay onClick={closeCart} />
                               <S.Sidebar>
                                 <h2>
                                   Pedido realizado -{' '}
@@ -486,15 +538,15 @@ const Cart = () => {
                                   apetite!
                                 </p>
                                 <Button
-                                  type="submit"
+                                  type="button"
                                   onClick={finish}
                                   title="Concluir compra"
                                 >
                                   Concluir
                                 </Button>
-                              </S.Sidebar>
-                            </>
-                          )}
+                              </S.Sidebar> */}
+                          </>
+                          {/* )} */}
                         </>
                       )}
                     </>
@@ -522,21 +574,3 @@ const Cart = () => {
 }
 
 export default Cart
-// function purchase(arg0: {
-//   delivery: {
-//     receiver: any
-//     address: {
-//       description: any
-//       city: any
-//       zipcode: any
-//       number: any
-//       complement: any
-//     }
-//   }
-//   products: never[]
-//   payment: {
-//     card: { name: string; number: string; code: number; expires: undefined }
-//   }
-// }) {
-//   throw new Error('Function not implemented.')
-// }
