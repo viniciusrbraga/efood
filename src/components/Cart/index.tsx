@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useFormik } from 'formik'
 
 import * as Yup from 'yup'
 import * as S from './styles'
 
 import { RootReducer } from '../../store'
-import { clear, close, remove } from '../../store/reducers/cart'
+import { close, remove } from '../../store/reducers/cart'
 import { formataPreco, getTotal } from '../../utils'
 import { useCompraMutation } from '../../services/api'
 
@@ -16,10 +16,9 @@ import InputMask from 'react-input-mask'
 
 const Cart = () => {
   const { aberto, eats } = useSelector((state: RootReducer) => state.cart)
-  const [compra, { data, isSuccess, isLoading }] = useCompraMutation()
+  const [compra, { data, isSuccess, isLoading, reset }] = useCompraMutation()
   const [entrega, setEntrega] = useState(true)
   const [pagamento, setPagamento] = useState(false)
-  const [recibo, setRecibo] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -80,7 +79,7 @@ const Cart = () => {
         .max(4, 'Informe o ano de vencimento do cartão')
         .required('Informe o ano de vencimento do cartão')
     }),
-    onSubmit: (values) => {
+    onSubmit: (values, { setTouched }) => {
       compra({
         products: eats.map((eat) => ({
           id: eat.id,
@@ -107,7 +106,8 @@ const Cart = () => {
             }
           }
         }
-      })
+      }),
+        setTouched({})
     }
   })
 
@@ -119,22 +119,14 @@ const Cart = () => {
     return hasError
   }
 
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(clear())
-    }
-  }, [isSuccess, dispatch])
-
   const carrinho = () => {
     setEntrega(true)
     setPagamento(false)
-    setRecibo(false)
   }
 
   const delivery = () => {
     setEntrega(false)
     setPagamento(true)
-    setRecibo(false)
   }
 
   const payment = () => {
@@ -159,43 +151,14 @@ const Cart = () => {
       numeroI.value === '' ||
       numeroI.value === '0'
     ) {
-      setEntrega(false), setPagamento(true), setRecibo(false)
+      setEntrega(false), setPagamento(true)
     } else {
-      setEntrega(false), setPagamento(false), setRecibo(true)
+      setEntrega(false), setPagamento(false)
     }
   }
 
-  const order = () => {
-    const nomeCartaoI = document.getElementById(
-      'nomeCartao'
-    ) as HTMLInputElement
-    const numeroCartaoI = document.getElementById(
-      'numeroCartao'
-    ) as HTMLInputElement
-    const CVVI = document.getElementById('CVV') as HTMLInputElement
-    const mesVencimentoI = document.getElementById(
-      'mesVencimento'
-    ) as HTMLInputElement
-    const anoVencimentoI = document.getElementById(
-      'anoVencimento'
-    ) as HTMLInputElement
-
-    if (
-      checkInputHasError('nomeCartao') ||
-      nomeCartaoI.value === '' ||
-      checkInputHasError('numeroCartao') ||
-      numeroCartaoI.value === '' ||
-      checkInputHasError('CVV') ||
-      CVVI.value === '' ||
-      checkInputHasError('mesVencimento') ||
-      mesVencimentoI.value === '' ||
-      checkInputHasError('anoVencimento') ||
-      anoVencimentoI.value === ''
-    ) {
-      setEntrega(false), setPagamento(false), setRecibo(true)
-    } else {
-      setEntrega(false), setPagamento(false), setRecibo(false)
-    }
+  const resetField = (fieldName: string) => {
+    form.setFieldValue(fieldName, '')
   }
 
   const finish = () => {
@@ -205,7 +168,18 @@ const Cart = () => {
     }
     setEntrega(true)
     setPagamento(false)
-    setRecibo(false)
+    // setRecibo(false)
+    reset()
+    resetField('nomeRecebedor')
+    resetField('endereco')
+    resetField('cidade')
+    resetField('CEP')
+    resetField('numero')
+    resetField('nomeCartao')
+    resetField('numeroCartao')
+    resetField('CVV')
+    resetField('mesVencimento')
+    resetField('anoVencimento')
   }
 
   return (
@@ -213,14 +187,12 @@ const Cart = () => {
       {eats.length > 0 ? (
         <S.CartContainer className={aberto ? 'is-open' : ''}>
           <>
-            {/* {isSuccess && data ? ( */}
-            {isSuccess ? (
+            {isSuccess && data ? (
               <>
                 <S.Overlay onClick={closeCart} />
                 <S.Sidebar>
                   <h2>
-                    {/* Pedido realizado - <strong> {data.orderId} </strong> */}
-                    Pedido realizado - <strong> success </strong>
+                    Pedido realizado - <strong> {data.orderId} </strong>
                   </h2>
                   <p>
                     Estamos felizes em informar que seu pedido já está em
@@ -487,7 +459,6 @@ const Cart = () => {
                               </S.CEPnum>
                               <Button
                                 type="submit"
-                                // onClick={order}
                                 onClick={form.handleSubmit}
                                 title="Clique aqui para finalizar o pagamento."
                                 disabled={isLoading}
@@ -505,48 +476,7 @@ const Cart = () => {
                               </Button>
                             </S.Sidebar>
                           </>
-                          {/*  ) : ( */}
-                          <>
-                            {/* <S.Overlay onClick={closeCart} />
-                              <S.Sidebar>
-                                <h2>
-                                  Pedido realizado -{' '}
-                                  {data ? (
-                                    <strong> {data.orderId} </strong>
-                                  ) : (
-                                    <strong> error </strong>
-                                  )}
-                                </h2>
-                                <p>
-                                  Estamos felizes em informar que seu pedido já
-                                  está em processo de preparação e, em breve,
-                                  será entregue no endereço fornecido.
-                                </p>
-                                <p>
-                                  Gostaríamos de ressaltar que nossos
-                                  entregadores não estão autorizados a realizar
-                                  cobranças extras.
-                                </p>
-                                <p>
-                                  Lembre-se da importância de higienizar as mãos
-                                  após o recebimento do pedido, garantindo assim
-                                  sua segurança e bem-estar durante a refeição.
-                                </p>
-                                <p>
-                                  Esperamos que desfrute de uma deliciosa e
-                                  agradável experiência gastronômica. Bom
-                                  apetite!
-                                </p>
-                                <Button
-                                  type="button"
-                                  onClick={finish}
-                                  title="Concluir compra"
-                                >
-                                  Concluir
-                                </Button>
-                              </S.Sidebar> */}
-                          </>
-                          {/* )} */}
+                          )
                         </>
                       )}
                     </>

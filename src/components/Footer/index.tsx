@@ -4,10 +4,13 @@ import logo from '../../assets/images/logo.png'
 import instagram from '../../assets/images/instagram.png'
 import facebook from '../../assets/images/facebook.png'
 import x from '../../assets/images/x.png'
+import { Link } from 'react-router-dom'
 
 const Footer = () => (
   <Container>
-    <img src={logo} alt="eFood" />
+    <Link to="/">
+      <img src={logo} alt="eFood" />
+    </Link>
     <Social>
       <img src={instagram} alt="Instagram" />
       <img src={facebook} alt="Facebook" />

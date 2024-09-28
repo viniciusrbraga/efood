@@ -47,16 +47,8 @@ const api = createApi({
       query: (id) => `restaurantes/${id}`
     }),
     compra: builder.mutation<PurchaseResponse, PurchasePayload>({
-      // query(data) {
-      //   const { id, ...body } = data
-      //   return {
-      //     url: `rest/${id}`,
-      //     method: 'POST',
-      //     body
-      //   }
-      // }
       query: (body) => ({
-        url: 'rest',
+        url: 'checkout',
         method: 'POST',
         body
       })
